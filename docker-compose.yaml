@@ -1,16 +1,6 @@
 version: "2"
 
 services:
-  php-apache:
-    build:
-      context: .
-      dockerfile: .docker/php-apache/Dockerfile
-    volumes:
-      - .:/var/www/html
-    networks:
-      - laravel
-    ports:
-      - "80:80"
 
   mysql:
     image: mysql
@@ -19,12 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
-    networks:
-      - laravel
     ports:
       - "3306:3306"
     env_file:
       - .env
-
-networks:
-  laravel:

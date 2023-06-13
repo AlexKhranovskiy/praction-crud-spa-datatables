@@ -39,5 +39,8 @@ Route::prefix('v1')->group(
 
         Route::patch('/categories/{id}', [CategoryApiController::class, 'update'])
             ->name('api.category.update');
+
+        Route::post('/login', [AuthApiController::class, 'login'])
+            ->name('api.user.login');
     }
 );
