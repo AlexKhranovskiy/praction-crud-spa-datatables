@@ -17,9 +17,17 @@ $(document).ready(function () {
             .catch(error => console.log(error));
 
     });
+    $("#logoutButton").click(function () {
+        axios.get('http://localhost:8000/api/v1/logout')
+            .then(function (response) {
+                // handle success
+                alert('rr');
+                console.log(response);
+            })
+    });
 });
 
-$("#loginModal").modal('show');
+//$("#loginModal").modal('show');
 
 function showTable() {
 
@@ -44,23 +52,31 @@ function showTable() {
 
 //$("#editModal").modal('show'); // modal();
 //});
-let categories = null;
+
 axios.get('http://localhost:8000/api/v1/categories')
     .then(function (response) {
         // handle success
-        categories = response.data.data;
-        console.log(categories);
-        new DataTable('#myTable', {
-            data: categories,
-            columns: [
-                {data: 'id'},
-                {data: 'name'},
-                {data: 'created_at'},
-                {data: 'updated_at'}
-            ],
-        });
+        console.log(response);
+        let categories = response.data.data;
+        loadTable(categories);
+    })
+    .catch(function (error) {
+        // handle error
+        $("#loginModal").modal('show');
+        console.log(error);
     });
 
+function loadTable(arrayData) {
+    return new DataTable('#myTable', {
+        data: arrayData,
+        columns: [
+            {data: 'id'},
+            {data: 'name'},
+            {data: 'created_at'},
+            {data: 'updated_at'}
+        ],
+    });
+}
 
 // let table = new DataTable('#myTable', {
 //     ajax: {

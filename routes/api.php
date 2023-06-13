@@ -26,6 +26,7 @@ Route::prefix('v1')->group(
     function () {
 
         Route::get('/categories', [CategoryApiController::class, 'indexWrapped'])
+            ->middleware('auth:sanctum')
             ->name('api.category.index.wrapped');
 
         Route::get('/categories/{id}', [CategoryApiController::class, 'show'])
@@ -42,5 +43,8 @@ Route::prefix('v1')->group(
 
         Route::post('/login', [AuthApiController::class, 'login'])
             ->name('api.user.login');
+
+        Route::get('/logout', [AuthApiController::class, 'logout'])
+            ->name('api.user.logout');
     }
 );
