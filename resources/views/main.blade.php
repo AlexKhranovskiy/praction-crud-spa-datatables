@@ -41,7 +41,7 @@
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword" placeholder="password">
+                            <input type="password" class="form-control" id="inputPassword" value="password">
                         </div>
                     </div>
                 </form>
@@ -57,27 +57,40 @@
     <section class="vh-100 gradient-custom">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div id="screen" class="col-12 col-md-8 col-lg-6 col-xl-5" style="display:none">
                     <button type="button" class="btn btn-secondary btn-sm" id="logoutButton">Logout</button>
                     <table id="myTable" class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">
-                                <button type="button" id="newCategoryButton" class="btn btn-secondary btn-sm">New
-                                </button>
-                            </th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Created at</th>
-                            <th scope="col">Updated at</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </section>
 </div>
+{{--<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>--}}
+{{--<script>--}}
+{{--    let dataSet = [--}}
+{{--        [1, 'Tiger Nixon', '2011/04/25', '2011/04/25'],--}}
+{{--        [2, 'Garrett Winters', '2011/07/25', '2011/07/25'],--}}
+{{--    ];--}}
+
+
+{{--    $(document).ready(function () {--}}
+{{--        $('#myTable').DataTable({--}}
+{{--            data: [--}}
+{{--                {"id": 1, "name": "Tiger Nixon", "created_at": "2011/04/25", "updated_at": "2011/04/25"}--}}
+{{--            ],--}}
+{{--            columnDefs: [{--}}
+{{--                "defaultContent": "-",--}}
+{{--                "targets": "_all"--}}
+{{--            }],--}}
+{{--            columns: [--}}
+{{--                {data: 'id'},--}}
+{{--                {data: 'name'},--}}
+{{--                {data: 'created_at'},--}}
+{{--                {data: 'updated_at'}--}}
+{{--            ],--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
 </body>
 </html>

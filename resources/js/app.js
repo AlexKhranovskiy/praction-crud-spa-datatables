@@ -1,37 +1,23 @@
 import './bootstrap';
 
 import DataTable from 'datatables.net-dt';
-//import Bootstrap from 'bootstrap';
 // import $ from 'jquery';
+//
 // window.$ = $;
-$(document).ready(function () {
-    $("#loginButton").click(function () {
-        axios.all([axios.get('http://localhost:8000/sanctum/csrf-cookie'),
-            axios.post('http://localhost:8000/api/v1/login', {
-                'email': $('#staticEmail').val(),
-                'password': $('#inputPassword').val()
-            })])
-            .then(axios.spread((firstResponse, secondResponse) => {
-                console.log(firstResponse.config.headers, secondResponse.data);
-            }))
-            .catch(error => console.log(error));
+//import Bootstrap from 'bootstrap';
 
-    });
-    $("#logoutButton").click(function () {
-        axios.get('http://localhost:8000/api/v1/logout')
-            .then(function (response) {
-                // handle success
-                alert('rr');
-                console.log(response);
-            })
-    });
-});
 
-//$("#loginModal").modal('show');
 
-function showTable() {
+// function delete_cookie(name, path, domain) {
+//     if (get_cookie(name)) {
+//         document.cookie = name + "=" +
+//             ((path) ? ";path=" + path : "") +
+//             ((domain) ? ";domain=" + domain : "") +
+//             ";expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=None; Secure=true";
+//     }
+// }
+//
 
-}
 
 // Make a request for a user with a given ID
 // axios.get('/api/user')
@@ -52,42 +38,120 @@ function showTable() {
 
 //$("#editModal").modal('show'); // modal();
 //});
+// function loadCategories() {
+//     return axios.get('http://localhost:8000/api/v1/categories')
+//         .then(function (response) {
+//             // handle success
+//             // console.log(response);
+//             //let categories = response.data.data;
+//             return response;
+//         })
+//         .catch(function (error) {
+//             // handle error
+//             // $("#loginModal").modal('show');
+//             console.log(error);
+//         });
+// }
+//$('#screen').hide();
+$(document).ready(function () {
 
-axios.get('http://localhost:8000/api/v1/categories')
-    .then(function (response) {
-        // handle success
-        console.log(response);
-        let categories = response.data.data;
-        loadTable(categories);
-    })
-    .catch(function (error) {
-        // handle error
-        $("#loginModal").modal('show');
-        console.log(error);
+    // const BASE_URL = 'http://localhost:8000/api/v1/categories';
+    // const getCategories = async () => {
+    //     try {
+    //         const response = await axios.get(`${BASE_URL}`);
+    //         const tableData = response.data;
+    //         console.log(`GET: Here's categories data`, tableData);
+    //         return tableData;
+    //     } catch (errors) {
+    //         console.error(errors);
+    //     }
+    // };
+
+    $("#loginModal").modal('show');
+    let table;
+    console.log(document.cookie);
+    $("#loginButton").click(function () {
+        axios.all([axios.get('http://localhost:8000/sanctum/csrf-cookie'),
+            axios.post('http://localhost:8000/api/v1/login', {
+                'email': $('#staticEmail').val(),
+                'password': $('#inputPassword').val()
+            })])
+            .then(axios.spread((firstResponse, secondResponse) => {
+                console.log(firstResponse.config.headers, secondResponse);
+                if (secondResponse.status === 200) {
+                    console.log(document.cookie);
+                    $('#screen').show();
+                    function get_cookie(name) {
+                        return document.cookie.split(';').some(c => {
+                            return c.trim().startsWith(name + '=');
+                        });
+                    }
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-XSRF-TOKEN': get_cookie('XSRF-TOKEN')
+                        }
+                    });
+
+
+                    window.table = new DataTable('#myTable', {
+                        ajax: {
+                            url: "/api/v1/categories",
+                            dataSrc: 'data',
+                            error: function (xhr, error, code) {
+                                console.log(xhr, code);
+                                $("#loginModal").modal('show');
+                                window.table.destroy();
+                            }
+                        },
+                        stateSave: true,
+                        columns: [
+                            {
+                                title: 'Id',
+                                data: 'id'
+                            },
+                            {
+                                title: 'Name',
+                                data: 'name'
+                            },
+                            {
+                                title: 'Created at',
+                                data: 'created_at'
+                            },
+                            {
+                                title: 'Updated at',
+                                data: 'updated_at'
+                            }
+                        ],
+                    });
+                    $("#loginModal").modal('hide');
+                } else {
+                    $("#loginModal").modal('show');
+                }
+            }))
+            .catch(error => console.log(error));
+
+    });
+    $("#logoutButton").click(function () {
+        axios.get('http://localhost:8000/api/v1/logout')
+            .then(function (response) {
+                // handle success
+                console.log(response);
+                $("#loginModal").modal('show');
+                window.table.destroy();
+                $('#screen').hide();
+
+            })
     });
 
-function loadTable(arrayData) {
-    return new DataTable('#myTable', {
-        data: arrayData,
-        columns: [
-            {data: 'id'},
-            {data: 'name'},
-            {data: 'created_at'},
-            {data: 'updated_at'}
-        ],
-    });
-}
+    // console.log(document.cookie);
+    // function get_cookie(name) {
+    //     return document.cookie.split(';').some(c => {
+    //         return c.trim().startsWith(name + '=');
+    //     });
+    // }
+});
 
-// let table = new DataTable('#myTable', {
-//     ajax: {
-//         url: "/api/v1/categories",
-//         dataSrc: 'data'
-//     },
-//     stateSave: true,
-//     columns: [
-//         {data: 'id'},
-//         {data: 'name'},
-//         {data: 'created_at'},
-//         {data: 'updated_at'}
-//     ],
-// });
+
+
+
