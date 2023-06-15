@@ -55,6 +55,21 @@ import DataTable from 'datatables.net-dt';
 //$('#screen').hide();
 $(document).ready(function () {
 
+    function delete_cookie( name, path, domain ) {
+        if( get_cookie( name ) ) {
+            document.cookie = name + "=" +
+                ((path) ? ";path="+path:"")+
+                ((domain)?";domain="+domain:"") +
+                ";expires=Thu, 01 Jan 1970 00:00:01 GMT" +
+                ";SameSite=Lax";
+        }
+    }
+    function get_cookie(name){
+        return document.cookie.split(';').some(c => {
+            return c.trim().startsWith(name + '=');
+        });
+    }
+
     // const BASE_URL = 'http://localhost:8000/api/v1/categories';
     // const getCategories = async () => {
     //     try {
@@ -71,8 +86,65 @@ $(document).ready(function () {
     let table;
     console.log(document.cookie);
     $("#loginButton").click(function () {
-        axios.all([axios.get('http://localhost:8000/sanctum/csrf-cookie'),
-            axios.post('http://localhost:8000/api/v1/login', {
+            // axios.post('http://localhost:8000/api/v1/login', {
+            //     'email': $('#staticEmail').val(),
+            //     'password': $('#inputPassword').val()
+            // }).then(function (response) {
+            //             if (response.status === 200) {
+            //                 console.log(document.cookie);
+            //                 $('#screen').show();
+            //                 function get_cookie(name) {
+            //                     return document.cookie.split(';').some(c => {
+            //                         return c.trim().startsWith(name + '=');
+            //                     });
+            //                 }
+            //
+            //                 $.ajaxSetup({
+            //                     headers: {
+            //                         'X-XSRF-TOKEN': get_cookie('XSRF-TOKEN')
+            //                     }
+            //                 });
+            //
+            //
+            //                 window.table = new DataTable('#myTable', {
+            //                     ajax: {
+            //                         url: "/api/v1/categories",
+            //                         dataSrc: 'data',
+            //                         error: function (xhr, error, code) {
+            //                             console.log(xhr, code);
+            //                             $("#loginModal").modal('show');
+            //                             window.table.destroy();
+            //                         }
+            //                     },
+            //                     stateSave: true,
+            //                     columns: [
+            //                         {
+            //                             title: 'Id',
+            //                             data: 'id'
+            //                         },
+            //                         {
+            //                             title: 'Name',
+            //                             data: 'name'
+            //                         },
+            //                         {
+            //                             title: 'Created at',
+            //                             data: 'created_at'
+            //                         },
+            //                         {
+            //                             title: 'Updated at',
+            //                             data: 'updated_at'
+            //                         }
+            //                     ],
+            //                 });
+            //                 $("#loginModal").modal('hide');
+            //             } else {
+            //                 $("#loginModal").modal('show');
+            //             }
+            //         })
+            //         .catch(error => console.log(error));
+            // });
+        axios.all([axios.get('/sanctum/csrf-cookie'),
+            axios.post('/api/v1/login', {
                 'email': $('#staticEmail').val(),
                 'password': $('#inputPassword').val()
             })])
@@ -87,9 +159,12 @@ $(document).ready(function () {
                         });
                     }
 
+                    //console.log('csrf', $('meta[name="csrf-token"]').attr('content'));
+
                     $.ajaxSetup({
                         headers: {
                             'X-XSRF-TOKEN': get_cookie('XSRF-TOKEN')
+                            //'CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
 
@@ -130,18 +205,19 @@ $(document).ready(function () {
                 }
             }))
             .catch(error => console.log(error));
-
     });
     $("#logoutButton").click(function () {
-        axios.get('http://localhost:8000/api/v1/logout')
+        axios.get('/api/v1/logout')
             .then(function (response) {
                 // handle success
                 console.log(response);
                 $("#loginModal").modal('show');
                 window.table.destroy();
                 $('#screen').hide();
+            });
 
-            })
+        delete_cookie('XSRF-TOKEN', '/', '');
+        console.log(document.cookie);
     });
 
     // console.log(document.cookie);
@@ -150,6 +226,45 @@ $(document).ready(function () {
     //         return c.trim().startsWith(name + '=');
     //     });
     // }
+
+    // window.delCookie = function(){
+    //
+    //     delete_cookie('XSRF-TOKEN', '/', '');
+    //     console.log(document.cookie);
+    // };
+    //
+    window.test = function(){
+        window.table = new DataTable('#myTable', {
+            ajax: {
+                url: "/api/v1/categories",
+                dataSrc: 'data',
+                error: function (xhr, error, code) {
+                    console.log(xhr, code);
+                    $("#loginModal").modal('show');
+                    window.table.destroy();
+                }
+            },
+            stateSave: true,
+            columns: [
+                {
+                    title: 'Id',
+                    data: 'id'
+                },
+                {
+                    title: 'Name',
+                    data: 'name'
+                },
+                {
+                    title: 'Created at',
+                    data: 'created_at'
+                },
+                {
+                    title: 'Updated at',
+                    data: 'updated_at'
+                }
+            ],
+        });
+    };
 });
 
 

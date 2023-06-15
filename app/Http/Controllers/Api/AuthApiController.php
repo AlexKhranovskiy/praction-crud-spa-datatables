@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 
 class AuthApiController
 {
@@ -20,10 +20,10 @@ class AuthApiController
         );
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Cookie::queue(Cookie::forget('XSRF-TOKEN'));
-        session()->invalidate();
+        $request->session()->invalidate();
+        $request->session()->regenerate();
         return response()->json(
             [
                 'message' => 'Successfully logged out',
