@@ -7,7 +7,6 @@ import DataTable from 'datatables.net-dt';
 //import Bootstrap from 'bootstrap';
 
 
-
 // function delete_cookie(name, path, domain) {
 //     if (get_cookie(name)) {
 //         document.cookie = name + "=" +
@@ -55,19 +54,20 @@ import DataTable from 'datatables.net-dt';
 //$('#screen').hide();
 $(document).ready(function () {
 
-    function delete_cookie( name, path, domain ) {
-        if( get_cookie( name ) ) {
-            document.cookie = name + "=" +
-                ((path) ? ";path="+path:"")+
-                ((domain)?";domain="+domain:"") +
-                ";expires=Thu, 01 Jan 1970 00:00:01 GMT" +
-                ";SameSite=Lax";
-        }
-    }
-    function get_cookie(name){
+    let getCookie = function get_cookie(name) {
         return document.cookie.split(';').some(c => {
             return c.trim().startsWith(name + '=');
         });
+    };
+
+    function delete_cookie(name, path, domain) {
+        if (getCookie(name)) {
+            document.cookie = name + "=" +
+                ((path) ? ";path=" + path : "") +
+                ((domain) ? ";domain=" + domain : "") +
+                ";expires=Thu, 01 Jan 1970 00:00:01 GMT" +
+                ";SameSite=Lax";
+        }
     }
 
     // const BASE_URL = 'http://localhost:8000/api/v1/categories';
@@ -86,63 +86,6 @@ $(document).ready(function () {
     let table;
     console.log(document.cookie);
     $("#loginButton").click(function () {
-            // axios.post('http://localhost:8000/api/v1/login', {
-            //     'email': $('#staticEmail').val(),
-            //     'password': $('#inputPassword').val()
-            // }).then(function (response) {
-            //             if (response.status === 200) {
-            //                 console.log(document.cookie);
-            //                 $('#screen').show();
-            //                 function get_cookie(name) {
-            //                     return document.cookie.split(';').some(c => {
-            //                         return c.trim().startsWith(name + '=');
-            //                     });
-            //                 }
-            //
-            //                 $.ajaxSetup({
-            //                     headers: {
-            //                         'X-XSRF-TOKEN': get_cookie('XSRF-TOKEN')
-            //                     }
-            //                 });
-            //
-            //
-            //                 window.table = new DataTable('#myTable', {
-            //                     ajax: {
-            //                         url: "/api/v1/categories",
-            //                         dataSrc: 'data',
-            //                         error: function (xhr, error, code) {
-            //                             console.log(xhr, code);
-            //                             $("#loginModal").modal('show');
-            //                             window.table.destroy();
-            //                         }
-            //                     },
-            //                     stateSave: true,
-            //                     columns: [
-            //                         {
-            //                             title: 'Id',
-            //                             data: 'id'
-            //                         },
-            //                         {
-            //                             title: 'Name',
-            //                             data: 'name'
-            //                         },
-            //                         {
-            //                             title: 'Created at',
-            //                             data: 'created_at'
-            //                         },
-            //                         {
-            //                             title: 'Updated at',
-            //                             data: 'updated_at'
-            //                         }
-            //                     ],
-            //                 });
-            //                 $("#loginModal").modal('hide');
-            //             } else {
-            //                 $("#loginModal").modal('show');
-            //             }
-            //         })
-            //         .catch(error => console.log(error));
-            // });
         axios.all([axios.get('/sanctum/csrf-cookie'),
             axios.post('/api/v1/login', {
                 'email': $('#staticEmail').val(),
@@ -153,18 +96,10 @@ $(document).ready(function () {
                 if (secondResponse.status === 200) {
                     console.log(document.cookie);
                     $('#screen').show();
-                    function get_cookie(name) {
-                        return document.cookie.split(';').some(c => {
-                            return c.trim().startsWith(name + '=');
-                        });
-                    }
-
-                    //console.log('csrf', $('meta[name="csrf-token"]').attr('content'));
 
                     $.ajaxSetup({
                         headers: {
-                            'X-XSRF-TOKEN': get_cookie('XSRF-TOKEN')
-                            //'CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
                         }
                     });
 
@@ -233,7 +168,7 @@ $(document).ready(function () {
     //     console.log(document.cookie);
     // };
     //
-    window.test = function(){
+    window.test = function () {
         window.table = new DataTable('#myTable', {
             ajax: {
                 url: "/api/v1/categories",
@@ -265,6 +200,17 @@ $(document).ready(function () {
             ],
         });
     };
+
+
+    window.test2 = function () {
+        // console.log(fetch('/api/v1/categories')
+        //     .then((response) => {
+        //         return response;
+        //     })
+        //     .then((data) => {
+        //         //console.log(data);
+        //     }));
+    }
 });
 
 
