@@ -33,6 +33,7 @@ Route::prefix('v1')->group(
 //            ->name('api.category.index');
 
         Route::get('/categories/{id}', [CategoryApiController::class, 'show'])
+            ->middleware('auth:sanctum')
             ->name('api.category.show');
 
         Route::post('/categories', [CategoryApiController::class, 'store'])

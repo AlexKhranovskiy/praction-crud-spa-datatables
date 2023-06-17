@@ -104,7 +104,11 @@ $(document).ready(function () {
             columns: [
                 {
                     title: 'Id',
-                    data: 'id'
+                    data: 'id',
+                    render: function (data, type, row) {
+                        return '<button type="button" class="btn btn-secondary btn-sm"\n' +
+                            `onclick="showEditModal(${data})">` + data + '</button>';
+                    }
                 },
                 {
                     title: 'Name',
@@ -122,8 +126,6 @@ $(document).ready(function () {
         });
     };
 
-    //$("#loginModal").modal('show');
-    let table;
     console.log(document.cookie);
     $("#loginButton").click(function () {
         axios.all([axios.get('/sanctum/csrf-cookie'),
@@ -186,6 +188,18 @@ $(document).ready(function () {
         //     .then((data) => {
         //         //console.log(data);
         //     }));
+    };
+
+    window.showEditModal = function(id){
+        axios.get('/api/v1/categories/' + id)
+            .then(function (response) {
+                // handle success
+                console.log(response);
+                $("#inputEditCategoryId").text(response.data.id).val(response.data.id);
+                $("#inputEditCategoryName").val(response.data.name);
+                $("#editModal").modal().val();
+            });
+
     };
 
     loadTable();
