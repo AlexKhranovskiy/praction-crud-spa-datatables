@@ -82,7 +82,47 @@ $(document).ready(function () {
     //     }
     // };
 
-    $("#loginModal").modal('show');
+    $.ajaxSetup({
+        headers: {
+            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        }
+    });
+
+    const loadTable = function(){
+        window.table = new DataTable('#myTable', {
+            ajax: {
+                url: "/api/v1/categories",
+                dataSrc: 'data',
+                error: function (xhr, error, code) {
+                    console.log(xhr, code);
+                    $("#loginModal").modal('show');
+                    window.table.destroy();
+                    $('#screen').hide();
+                },
+            },
+            stateSave: true,
+            columns: [
+                {
+                    title: 'Id',
+                    data: 'id'
+                },
+                {
+                    title: 'Name',
+                    data: 'name'
+                },
+                {
+                    title: 'Created at',
+                    data: 'created_at'
+                },
+                {
+                    title: 'Updated at',
+                    data: 'updated_at'
+                }
+            ],
+        });
+    };
+
+    //$("#loginModal").modal('show');
     let table;
     console.log(document.cookie);
     $("#loginButton").click(function () {
@@ -96,44 +136,8 @@ $(document).ready(function () {
                 if (secondResponse.status === 200) {
                     console.log(document.cookie);
                     $('#screen').show();
+                    loadTable();
 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-                        }
-                    });
-
-
-                    window.table = new DataTable('#myTable', {
-                        ajax: {
-                            url: "/api/v1/categories",
-                            dataSrc: 'data',
-                            error: function (xhr, error, code) {
-                                console.log(xhr, code);
-                                $("#loginModal").modal('show');
-                                window.table.destroy();
-                            }
-                        },
-                        stateSave: true,
-                        columns: [
-                            {
-                                title: 'Id',
-                                data: 'id'
-                            },
-                            {
-                                title: 'Name',
-                                data: 'name'
-                            },
-                            {
-                                title: 'Created at',
-                                data: 'created_at'
-                            },
-                            {
-                                title: 'Updated at',
-                                data: 'updated_at'
-                            }
-                        ],
-                    });
                     $("#loginModal").modal('hide');
                 } else {
                     $("#loginModal").modal('show');
@@ -169,36 +173,8 @@ $(document).ready(function () {
     // };
     //
     window.test = function () {
-        window.table = new DataTable('#myTable', {
-            ajax: {
-                url: "/api/v1/categories",
-                dataSrc: 'data',
-                error: function (xhr, error, code) {
-                    console.log(xhr, code);
-                    $("#loginModal").modal('show');
-                    window.table.destroy();
-                }
-            },
-            stateSave: true,
-            columns: [
-                {
-                    title: 'Id',
-                    data: 'id'
-                },
-                {
-                    title: 'Name',
-                    data: 'name'
-                },
-                {
-                    title: 'Created at',
-                    data: 'created_at'
-                },
-                {
-                    title: 'Updated at',
-                    data: 'updated_at'
-                }
-            ],
-        });
+        $('#screen').show();
+        loadTable();
     };
 
 
@@ -210,7 +186,9 @@ $(document).ready(function () {
         //     .then((data) => {
         //         //console.log(data);
         //     }));
-    }
+    };
+
+    loadTable();
 });
 
 
