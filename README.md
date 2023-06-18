@@ -9,6 +9,7 @@ can add new record, edit the record which exists, delete the record. Modal windo
 of the page and info for this windows is loaded by AXIOS from API of application.
 
 ###How to run
+On your machine must be installed Node, Docker, PHP, Composer
 * clone the repository
 * rename project to 77
 * ```docker-compose up -d```
