@@ -89,7 +89,7 @@ $(document).ready(function () {
     });
 
     const loadTable = function () {
-        window.table = new DataTable('#myTable', {
+        return new DataTable('#myTable', {
             ajax: {
                 url: "/api/v1/categories",
                 dataSrc: 'data',
@@ -142,7 +142,7 @@ $(document).ready(function () {
                 if (secondResponse.status === 200) {
                     console.log(document.cookie);
                     $('#screen').show();
-                    loadTable();
+                    window.table = loadTable();
 
                     $("#loginModal").modal('hide');
                 } else {
@@ -177,7 +177,7 @@ $(document).ready(function () {
             console.log(error);
             window.table.destroy();
             $("#createModal").modal('hide');
-            loadTable();
+            window.table = loadTable();
         });
     });
 
@@ -194,7 +194,7 @@ $(document).ready(function () {
             console.log(error);
             window.table.destroy();
             $("#editModal").modal('hide');
-            loadTable();
+            window.table = loadTable();
         });
     });
 
@@ -210,7 +210,8 @@ $(document).ready(function () {
             console.log(error);
             window.table.destroy();
             $("#editModal").modal('hide');
-            loadTable();
+            $("#loginModal").modal('show');
+            window.table = loadTable();
         });
     });
 
@@ -229,7 +230,7 @@ $(document).ready(function () {
     //
     window.test = function () {
         $('#screen').show();
-        loadTable();
+        window.table = loadTable();
     };
 
 
@@ -255,7 +256,7 @@ $(document).ready(function () {
 
     };
 
-    loadTable();
+    window.table = loadTable();
 });
 
 
