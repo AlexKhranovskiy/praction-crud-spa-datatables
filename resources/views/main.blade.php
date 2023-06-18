@@ -61,6 +61,7 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div id="screen" class="col-12 col-md-8 col-lg-6 col-xl-5">
 {{--                    style="display:none">--}}
+                    <button type="button" class="btn btn-secondary btn-sm" id="newCategoryButton">New category</button>
                     <button type="button" class="btn btn-secondary btn-sm" id="logoutButton">Logout</button>
                     <table id="myTable" class="table">
                     </table>
@@ -68,6 +69,29 @@
             </div>
         </div>
     </section>
+</div>
+<!-- Modal for create-->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="inputCreateCategoryName" id="inputCreateCategoryId">Name:</label>
+                <input id="inputCreateCategoryName" name="categoryName" type="text"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                <button type="button" id="saveChangesCreateCategoryButton" class="btn btn-primary btn-sm">Save changes
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Modal for edit-->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"

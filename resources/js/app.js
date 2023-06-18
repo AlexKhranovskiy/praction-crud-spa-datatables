@@ -126,6 +126,10 @@ $(document).ready(function () {
         });
     };
 
+    $("#newCategoryButton").click(function () {
+        $("#createModal").modal('show');
+    });
+
     console.log(document.cookie);
     $("#loginButton").click(function () {
         axios.all([axios.get('/sanctum/csrf-cookie'),
@@ -159,6 +163,16 @@ $(document).ready(function () {
 
         delete_cookie('XSRF-TOKEN', '/', '');
         console.log(document.cookie);
+    });
+
+    $("#saveChangesCreateCategoryButton").click(function () {
+        axios.post('/api/v1/categories', {
+            'name': $('#inputCreateCategoryName').val()
+        }).then(function (response) {
+            // handle success
+            console.log(response);
+            $("#createModal").modal('hide');
+        });
     });
 
     $("#saveChangesEditCategoryButton").click(function () {
