@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    <title></title>
+    <title>SPA CRUD</title>
 
     <!-- Styles -->
     <style>
@@ -54,8 +53,6 @@
     </div>
 </div>
 <div class="container-sm">
-    <button type="button" onclick="test()">test</button>
-    <button type="button" onclick="test2()">test2</button>
     <section class="vh-100 gradient-custom">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
