@@ -161,6 +161,17 @@ $(document).ready(function () {
         console.log(document.cookie);
     });
 
+    $("#saveChangesEditCategoryButton").click(function () {
+        let id = $('#inputEditCategoryId').val();
+        axios.patch('/api/v1/categories/' + id, {
+            'name': $('#inputEditCategoryName').val()
+        }).then(function (response) {
+                // handle success
+                console.log(response);
+                $("#editModal").modal('hide');
+            });
+    });
+
     // console.log(document.cookie);
     // function get_cookie(name) {
     //     return document.cookie.split(';').some(c => {
