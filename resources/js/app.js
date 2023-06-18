@@ -1,22 +1,6 @@
 import './bootstrap';
 
 import DataTable from 'datatables.net-dt';
-// import $ from 'jquery';
-//
-// window.$ = $;
-//import Bootstrap from 'bootstrap';
-
-
-// function delete_cookie(name, path, domain) {
-//     if (get_cookie(name)) {
-//         document.cookie = name + "=" +
-//             ((path) ? ";path=" + path : "") +
-//             ((domain) ? ";domain=" + domain : "") +
-//             ";expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=None; Secure=true";
-//     }
-// }
-//
-
 
 // Make a request for a user with a given ID
 // axios.get('/api/user')
@@ -34,24 +18,6 @@ import DataTable from 'datatables.net-dt';
 //         // always executed
 //     });
 
-
-//$("#editModal").modal('show'); // modal();
-//});
-// function loadCategories() {
-//     return axios.get('http://localhost:8000/api/v1/categories')
-//         .then(function (response) {
-//             // handle success
-//             // console.log(response);
-//             //let categories = response.data.data;
-//             return response;
-//         })
-//         .catch(function (error) {
-//             // handle error
-//             // $("#loginModal").modal('show');
-//             console.log(error);
-//         });
-// }
-//$('#screen').hide();
 $(document).ready(function () {
 
     let getCookie = function get_cookie(name) {
@@ -214,35 +180,6 @@ $(document).ready(function () {
             window.table = loadTable();
         });
     });
-
-    // console.log(document.cookie);
-    // function get_cookie(name) {
-    //     return document.cookie.split(';').some(c => {
-    //         return c.trim().startsWith(name + '=');
-    //     });
-    // }
-
-    // window.delCookie = function(){
-    //
-    //     delete_cookie('XSRF-TOKEN', '/', '');
-    //     console.log(document.cookie);
-    // };
-    //
-    window.test = function () {
-        $('#screen').show();
-        window.table = loadTable();
-    };
-
-
-    window.test2 = function () {
-        // console.log(fetch('/api/v1/categories')
-        //     .then((response) => {
-        //         return response;
-        //     })
-        //     .then((data) => {
-        //         //console.log(data);
-        //     }));
-    };
 
     window.showEditModal = function (id) {
         axios.get('/api/v1/categories/' + id)
