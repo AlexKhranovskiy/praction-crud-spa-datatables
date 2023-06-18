@@ -173,7 +173,12 @@ $(document).ready(function () {
             console.log(response);
             $("#createModal").modal('hide');
             window.table.ajax.reload();
-        }).catch(error => console.log(error));
+        }).catch(error => {
+            console.log(error);
+            window.table.destroy();
+            $("#createModal").modal('hide');
+            loadTable();
+        });
     });
 
     $("#saveChangesEditCategoryButton").click(function () {
@@ -185,7 +190,12 @@ $(document).ready(function () {
             console.log(response);
             $("#editModal").modal('hide');
             window.table.ajax.reload();
-        }).catch(error => console.log(error));
+        }).catch(error => {
+            console.log(error);
+            window.table.destroy();
+            $("#editModal").modal('hide');
+            loadTable();
+        });
     });
 
     $("#deleteCategoryButton").click(function () {
