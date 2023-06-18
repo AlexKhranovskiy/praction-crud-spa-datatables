@@ -88,7 +88,7 @@ $(document).ready(function () {
         }
     });
 
-    const loadTable = function(){
+    const loadTable = function () {
         window.table = new DataTable('#myTable', {
             ajax: {
                 url: "/api/v1/categories",
@@ -172,7 +172,8 @@ $(document).ready(function () {
             // handle success
             console.log(response);
             $("#createModal").modal('hide');
-        });
+            window.table.ajax.reload();
+        }).catch(error => console.log(error));
     });
 
     $("#saveChangesEditCategoryButton").click(function () {
@@ -180,10 +181,27 @@ $(document).ready(function () {
         axios.patch('/api/v1/categories/' + id, {
             'name': $('#inputEditCategoryName').val()
         }).then(function (response) {
+            // handle success
+            console.log(response);
+            $("#editModal").modal('hide');
+            window.table.ajax.reload();
+        }).catch(error => console.log(error));
+    });
+
+    $("#deleteCategoryButton").click(function () {
+        let id = $('#inputEditCategoryId').val();
+        axios.delete('/api/v1/categories/' + id)
+            .then(function (response) {
                 // handle success
                 console.log(response);
                 $("#editModal").modal('hide');
-            });
+                window.table.ajax.reload();
+            }).catch(error => {
+            console.log(error);
+            window.table.destroy();
+            $("#editModal").modal('hide');
+            loadTable();
+        });
     });
 
     // console.log(document.cookie);
@@ -215,7 +233,7 @@ $(document).ready(function () {
         //     }));
     };
 
-    window.showEditModal = function(id){
+    window.showEditModal = function (id) {
         axios.get('/api/v1/categories/' + id)
             .then(function (response) {
                 // handle success
@@ -223,7 +241,7 @@ $(document).ready(function () {
                 $("#inputEditCategoryId").text(response.data.id).val(response.data.id);
                 $("#inputEditCategoryName").val(response.data.name);
                 $("#editModal").modal().val();
-            });
+            }).catch(error => console.log(error));
 
     };
 

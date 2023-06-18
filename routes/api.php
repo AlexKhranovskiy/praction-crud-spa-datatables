@@ -37,12 +37,15 @@ Route::prefix('v1')->group(
             ->name('api.category.show');
 
         Route::post('/categories', [CategoryApiController::class, 'store'])
+            ->middleware('auth:sanctum')
             ->name('api.category.store');
 
         Route::delete('/categories/{id}', [CategoryApiController::class, 'destroy'])
+            ->middleware('auth:sanctum')
             ->name('api.category.destroy');
 
         Route::patch('/categories/{id}', [CategoryApiController::class, 'update'])
+            ->middleware('auth:sanctum')
             ->name('api.category.update');
 
         Route::post('/login', [AuthApiController::class, 'login'])
